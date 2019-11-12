@@ -76,10 +76,10 @@ RUN apt-get remove curl -y \
   && rm -rf "/usr/local/src/curl-${CURL_VERSION}.tar.gz" "/usr/local/src/curl-${CURL_VERSION}" 
 
 # Rebuild stunnel
-ARG STUNNEL_VERSION=5.50
-ARG STUNNEL_SHA256="951d92502908b852a297bd9308568f7c36598670b84286d3e05d4a3a550c0149"
+ARG STUNNEL_VERSION=5.55
+ARG STUNNEL_SHA256="90DE69F41C58342549E74C82503555A6426961B29AF3ED92F878192727074C62"
 RUN cd /usr/local/src \
-  && wget "https://github.com/mvavdeev/stunnel-openssl-gost/blob/master/stunnel-${STUNNEL_VERSION}.tar.gz" -O "stunnel-${STUNNEL_VERSION}.tar.gz" \
+  && wget "https://www.stunnel.org/downloads/stunnel-${STUNNEL_VERSION}.tar.gz" \
   && echo "$STUNNEL_SHA256" "stunnel-${STUNNEL_VERSION}.tar.gz" | sha256sum -c - \
   && tar -zxvf "stunnel-${STUNNEL_VERSION}.tar.gz" \
   && cd "stunnel-${STUNNEL_VERSION}" \
@@ -90,4 +90,12 @@ RUN cd /usr/local/src \
   && ln -s /usr/local/stunnel/bin/stunnel /usr/bin/stunnel \
   && rm -rf "/usr/local/src/stunnel-${STUNNEL_VERSION}.tar.gz" "/usr/local/src/stunnel-${STUNNEL_VERSION}" \
   && cd /usr/local/stunnel/etc/stunnel \
-  && wget "https://github.com/mvavdeev/stunnel-openssl-gost/stunnel.conf" 
+  && rm -rf "/usr/local/stunnel/etc/stunnel/stunnel.conf" \
+  && echo "socket = l:TCP_NODELAY=1" >> stunnel.conf \
+  && echo "socket = r:TCP_NODELAY=1" >> stunnel.conf \
+  && echo "engine = gost" >> stunnel.conf \
+  && echo "client = yes" >> stunnel.conf \
+  && echo "[test]" >> stunnel.conf \
+  && echo "accept=0.0.0.0:4567" >> stunnel.conf \
+  && echo "connect=example.com:443" >> stunnel.conf \
+  && echo "verify = 0" >> stunnel.conf
