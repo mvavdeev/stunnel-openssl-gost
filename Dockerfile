@@ -79,7 +79,7 @@ RUN apt-get remove curl -y \
 ARG STUNNEL_VERSION=5.50
 ARG STUNNEL_SHA256="951d92502908b852a297bd9308568f7c36598670b84286d3e05d4a3a550c0149"
 RUN cd /usr/local/src \
-  && wget "https://www.stunnel.org/downloads/stunnel-${STUNNEL_VERSION}.tar.gz" -O "stunnel-${STUNNEL_VERSION}.tar.gz" \
+  && wget "https://github.com/mvavdeev/stunnel-openssl-gost/stunnel-${STUNNEL_VERSION}.tar.gz" -O "stunnel-${STUNNEL_VERSION}.tar.gz" \
   && echo "$STUNNEL_SHA256" "stunnel-${STUNNEL_VERSION}.tar.gz" | sha256sum -c - \
   && tar -zxvf "stunnel-${STUNNEL_VERSION}.tar.gz" \
   && cd "stunnel-${STUNNEL_VERSION}" \
