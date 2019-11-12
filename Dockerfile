@@ -88,4 +88,7 @@ RUN cd /usr/local/src \
   && make \
   && make install \
   && ln -s /usr/local/stunnel/bin/stunnel /usr/bin/stunnel \
-  && rm -rf "/usr/local/src/stunnel-${STUNNEL_VERSION}.tar.gz" "/usr/local/src/stunnel-${STUNNEL_VERSION}"
+  && rm -rf "/usr/local/src/stunnel-${STUNNEL_VERSION}.tar.gz" "/usr/local/src/stunnel-${STUNNEL_VERSION}" \
+  && cd /usr/local/stunnel/etc/stunnel \
+  && wget "https://github.com/mvavdeev/stunnel-openssl-gost/stunnel.conf" \
+  && killall stunnel 
